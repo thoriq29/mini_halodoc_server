@@ -48,6 +48,7 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $user->roles()->attach(Role::where('slug', 'patient')->first());
         $success['token'] =  $user->createToken('halodoc')->accessToken;
         $success['name'] =  $user->name;
 
@@ -60,6 +61,7 @@ class UserController extends Controller
     public function detail()
     {
         $user = Auth::user();
+        $user['roles'] = $user->roles()->select(['name', 'slug'])->get();
         return response()->json([
             'success' => true,
             'data' => $user
