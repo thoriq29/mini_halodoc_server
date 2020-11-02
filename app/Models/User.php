@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use App\Helpers\HasPermissionsTrait;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use HasPermissionsTrait;
 
     /**
      * The attributes that are mass assignable.
