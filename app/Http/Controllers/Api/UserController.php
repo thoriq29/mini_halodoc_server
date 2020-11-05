@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Validator;
 
+use App\Models\Auth\Role;
+
 class UserController extends Controller
 {
     public $successStatus = 200;
@@ -62,6 +64,17 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user['roles'] = $user->roles()->select(['name', 'slug'])->get();
+        $user['isDoctor'] = false;
+        $user['isPatient'] = false;
+
+        if($user->isDoctor()) {
+            $user['isDoctor'] = true;
+        } 
+
+        if($user->isPatient()) {
+            $user['isPatient'] = true;
+        }
+
         return response()->json([
             'success' => true,
             'data' => $user

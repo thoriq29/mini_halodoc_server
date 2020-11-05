@@ -2,7 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ContentController;
+use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\HospitalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +23,19 @@ use App\Http\Controllers\Api\UserController;
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
+
+
+// list doctor
+Route::get('/doctor/list', [DoctorController::class, 'doctors']);
+// detail doctor
+Route::get('/doctor/{id}', [DoctorController::class, 'doctor']);
+
+// content 
+Route::get('/content', [ContentController::class, 'list']);
+Route::get('/content/search', [ContentController::class, 'search']);
+
+// hospital
+Route::get('/hospital/{id}', [HospitalController::class, 'detail']);
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::post('user', [UserController::class, 'detail']);
