@@ -19,8 +19,8 @@ class CreateHospitalsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('address');
-            $table->double('lat', 8, 2);
-            $table->double('lng', 8, 2);
+            $table->decimal('lat', 20, 7);
+            $table->decimal('lng', 20, 7);
             $table->timestamps();
         });
     }
