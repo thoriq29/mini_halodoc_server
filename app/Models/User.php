@@ -10,6 +10,9 @@ use Illuminate\Notifications\Notifiable;
 
 use App\Helpers\HasPermissionsTrait;
 
+use App\Models\Patient;
+use App\Models\Doctor;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -44,4 +47,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
+    }
+
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
+    }
+
+    public function isPatient()
+    {
+        return (bool) $this->patient()->get()->count();
+    }
+
+    public function isDoctor()
+    {
+        return (bool) $this->doctor()->get()->count();
+    }
 }
