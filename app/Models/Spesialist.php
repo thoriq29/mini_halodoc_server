@@ -20,4 +20,9 @@ class Spesialist extends Model
     public function doctors() {
         return $this->hasMany(Doctor::class);    
     }
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

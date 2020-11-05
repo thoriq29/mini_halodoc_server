@@ -13,6 +13,22 @@ class Booking extends Model
 {
     use HasFactory;
 
+    protected $attributes = [
+        'message' => "",
+    ];
+
+    protected $fillable = [
+        'doctor_id',
+        'hospital_id',
+        'patient_id',
+        'message',
+        'booking_for',
+        'is_active',
+        'date',
+        'booking_code',
+        'status'
+    ];
+
     public function hospital() {
         return $this->belongsTo(Hospital::class);    
     }
@@ -24,4 +40,14 @@ class Booking extends Model
     public function doctor() {
         return $this->belongsTo(Doctor::class);    
     }
+
+    public function isActive()
+    {
+        return (bool) $this->is_active > 0;
+    }
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

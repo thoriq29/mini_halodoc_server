@@ -38,8 +38,10 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
+            'phone' => 'required',
+            'sex' => 'required',
             'c_password' => 'required|same:password',
         ]);
 
@@ -50,6 +52,14 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+
+        $user->patient()->create([
+            'user_id' => $user->id,
+            'address' => "",
+            "phone" => $input['phone'],
+            "sex" => $input['sex']
+        ]);
+
         $user->roles()->attach(Role::where('slug', 'patient')->first());
         $success['token'] =  $user->createToken('halodoc')->accessToken;
         $success['name'] =  $user->name;
@@ -80,4 +90,5 @@ class UserController extends Controller
             'data' => $user
         ], $this->successStatus);
     }
+
 }

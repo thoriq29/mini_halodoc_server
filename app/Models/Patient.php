@@ -26,4 +26,9 @@ class Patient extends Model
     public function bookings() {
         return $this->hasMany(Booking::class);    
     }
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

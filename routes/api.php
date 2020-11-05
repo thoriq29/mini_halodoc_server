@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ContentController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\HospitalController;
@@ -38,5 +39,11 @@ Route::get('/content/search', [ContentController::class, 'search']);
 Route::get('/hospital/{id}', [HospitalController::class, 'detail']);
 
 Route::group(['middleware' => 'auth:api'], function(){
+
     Route::post('user', [UserController::class, 'detail']);
+
+    // booking
+    Route::get('bookings', [BookingController::class, 'patientBookings']);
+    Route::get('booking/{id}', [BookingController::class, 'booking']);
+    Route::post('booking/create', [BookingController::class, 'makeBooking']);
 });
