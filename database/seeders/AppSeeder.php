@@ -51,13 +51,6 @@ class AppSeeder extends Seeder
         $admin->roles()->attach($role);
         $admin->createToken('halodoc')->accessToken;
 
-
-        $doctor = User::create([
-        	'name' => 'Dr.Thoriq ST, M.Tronik',
-            'email' => 'doctor@halodoc.id',
-        	'password' => bcrypt('changemeplease')
-        ]);
-
         $permissions = [
             'Accept Consultation',
             'Cancel Consultation',
@@ -72,8 +65,6 @@ class AppSeeder extends Seeder
 
         $permissions = Permission::pluck('id','id')->all();
         $docRole->permissions()->attach($permissions);
-        $doctor->roles()->attach($docRole);
-        $doctor->createToken('halodoc')->accessToken;
     }
 
     public function savePermissions($permissions)
