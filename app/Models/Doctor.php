@@ -23,6 +23,12 @@ class Doctor extends Model
         'user_id'
     ];
 
+    protected $appends = ['type'];
+
+    public function getTypeAttribute(){
+        return "doctor";
+    }
+
     public function schedules() {
         return $this->belongsToMany(Schedule::class,'doctor_schedules');
     }
