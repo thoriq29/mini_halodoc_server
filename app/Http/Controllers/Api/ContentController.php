@@ -16,10 +16,12 @@ class ContentController extends Controller
     {
         $content = $content->newQuery();
 
+        // dd($request->get('category'));
+
         $category = $request->get('category');
         if($request->has('category')) {
-            $content->where('content_category_id', function($query) use($category){
-                $query->from('content_categories')->select('id')->where('slug', $category);
+            $content->whereIn('content_category_id', function($query) use($category){
+                $query->from('content_categories')->select('id')->whereIn('slug', $category);
             });
 
         }
