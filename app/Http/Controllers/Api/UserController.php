@@ -83,6 +83,8 @@ class UserController extends Controller
 
         if($user->isPatient()) {
             $user['isPatient'] = true;
+            $user['sex'] = $user->patient()->first()->sex;
+            $user['phone'] = $user->patient()->first()->phone;
         }
 
         return response()->json([
