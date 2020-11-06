@@ -64,16 +64,16 @@ class ContentController extends Controller
                 ->select(
                     'contents.id as id',
                     'contents.title as title',
-                    'contents.image_url as image_url',
-                    'content_categories.name as category'
+                    'contents.image_url as img_url',
+                    'content_categories.name as desc'
                 )->get();
         
         $doctor->join('spesialists', 'spesialists.id', '=', 'doctors.spesialist_id')
                 ->select(
                     'doctors.id as doc_id',
                     'doctors.name as title',
-                    'doctors.image_url as image_url',
-                    'spesialists.name as category'
+                    'doctors.image_url as img_url',
+                    'spesialists.name as desc'
                 );
         $data = $content->get()->merge($doctor->get());
         return response()->json(

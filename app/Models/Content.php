@@ -21,6 +21,11 @@ class Content extends Model
         'content_category_id'
     ];
 
+    protected $appends = ['type'];
+    public function getTypeAttribute(){
+        return "content";
+    }
+
     public function category() {
         return $this->belongsTo(ContentCategory::class);    
     }
