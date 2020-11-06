@@ -34,7 +34,7 @@ class ContentController extends Controller
                 'contents.image_url',
                 'contents.date',
                 'content_categories.name as category',
-                'hospitals.name'
+                'hospitals.name as hospital'
             );
         return response()->json(
             [
@@ -61,12 +61,7 @@ class ContentController extends Controller
         }
         
         $content->join('content_categories', 'content_categories.id', '=', 'contents.content_category_id')
-                ->select(
-                    'contents.id as id',
-                    'contents.title as title',
-                    'contents.image_url as img_url',
-                    'content_categories.name as desc'
-                )->get();
+                ->get();
         
         $doctor->join('spesialists', 'spesialists.id', '=', 'doctors.spesialist_id')
                 ->select(
