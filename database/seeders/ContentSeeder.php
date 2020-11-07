@@ -2,11 +2,16 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
+
 use Illuminate\Database\Seeder;
 
 use App\Models\Content;
 use App\Models\ContentCategory;
 use App\Models\Hospital;
+
+use App\Models\Department;
+use App\Models\HospitalType;
 
 class ContentSeeder extends Seeder
 {
@@ -17,14 +22,31 @@ class ContentSeeder extends Seeder
      */
     public function run()
     {
+
+        $type = HospitalType::create([
+            'slug'=> 'hospital',
+            'name'=> 'Hospital'
+        ]);
+
+        $dept = Department::create([
+            'name' => "SMKDev",
+            "desc" => "Department SMKDev",
+            "tagline" => "SMK Bisa!",
+            "motto" => "Hidup Mandiri, Jangan jadi beban keluarga!",
+            "date_of_establishment" => new Carbon('2000-10-10 09:00:00')
+        ]);
+
         $hospital = Hospital::create([
             'name' => 'SMKDev Hospital',
             'email' => "info@smk.dev",
             'phone' => "+622700000",
             'address' => "Jl Margacinta NO 29",
             'lat' => -6.9552316,
-            'lng' => 107.6480657
+            'lng' => 107.6480657,
+            'department_id' => $dept->id,
+            'hospital_type_id' => $type->id
         ]);
+
         $categories = [
             'Event',
             'Promo',

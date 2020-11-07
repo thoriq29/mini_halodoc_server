@@ -10,6 +10,8 @@ use App\Models\Doctor;
 use App\Models\Booking;
 use App\Models\Schedule;
 
+use App\Models\HospitalType;
+
 class Hospital extends Model
 {
     use HasFactory;
@@ -22,6 +24,10 @@ class Hospital extends Model
         'lat',
         'lng',
     ];
+
+    public function hospital_type() {
+        return $this->belongsTo(HospitalType::class);    
+    }
 
     public function contents() {
         return $this->hasMany(Content::class);    
