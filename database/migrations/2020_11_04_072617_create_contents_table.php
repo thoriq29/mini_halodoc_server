@@ -17,7 +17,7 @@ class CreateContentsTable extends Migration
             $table->id();
 
             $table->string('title');
-            $table->string('desc');
+            $table->text('desc');
             $table->string('image_url');
             $table->timestamp('date');
 
