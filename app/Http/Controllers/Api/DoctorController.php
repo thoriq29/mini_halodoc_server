@@ -25,7 +25,7 @@ class DoctorController extends Controller
 
     public function doctor(Request $request, $id)
     {
-        $doctor = Doctor::findOrFail($id)->first();
+        $doctor = Doctor::findOrFail($id);
         $doctor['spesialist'] = $doctor->spesialist;
         $doctor['schedules'] = $doctor->schedules;
         return response()->json(
