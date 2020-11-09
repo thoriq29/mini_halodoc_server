@@ -37,7 +37,7 @@ Route::get('/content/search', [ContentController::class, 'search']);
 
 // hospital
 Route::get('/department/{depid}/hospitals', [HospitalController::class, 'hospitals']);
-Route::get('/department/{depid}/hospital/{id}', [HospitalController::class, 'detail']);
+Route::get('/department/{depid}/hospital/{id}/', [HospitalController::class, 'detail']);
 
 Route::group(['middleware' => 'auth:api'], function(){
 

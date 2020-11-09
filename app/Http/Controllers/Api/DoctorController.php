@@ -25,23 +25,13 @@ class DoctorController extends Controller
 
     public function doctor(Request $request, $id)
     {
-        $doctor = Doctor::findOrFail($id);
+        $doctor = Doctor::findOrFail($id)->first();
+        $doctor['spesialist'] = $doctor->spesialist;
+        $doctor['schedules'] = $doctor->schedules;
         return response()->json(
             [
                 'success' => true,
-                'data'=> $doctor->with(
-                    [
-                        'spesialist'=> function($query) {
-                            $query->select(['id', 'slug', 'name', 'description']);
-                        },
-                        'schedules'=> function($query) {
-                            $query->with(['hospital' => function($hospital) use($query) {
-                                $query->select(['id', 'day', 'start_at', 'end_at']);
-                                $hospital->select(['id', 'name']);
-                            }]);
-                            
-                        },
-                    ])->first(),
+                'data'=> $doctor
             ], $this->successStatus
         );
     }

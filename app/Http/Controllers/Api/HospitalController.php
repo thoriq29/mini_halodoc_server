@@ -30,10 +30,11 @@ class HospitalController extends Controller
     public function detail(Request $request, $dep_id, $hospital_id)
     {   
         $hospital = Department::find($dep_id)->hospitals->find($hospital_id);
+        // dd($hospital);
         return response()->json(
             [
                 'success' => true,
-                'data'=> $hospital->with(['schedules.doctors', 'contents', 'hospital_type'])->get()
+                'data'=> $hospital->with(['schedules.doctors', 'contents', 'hospital_type'])->first()
             ], $this->successStatus
         );
     }
