@@ -26,7 +26,7 @@ class BookingController extends Controller
             ], $this->successStatus);
         } 
 
-        $bookings = $user->patient()->first()->bookings;
+        $bookings = $user->patient()->first()->bookings()->with('doctor', 'hospital', 'doctor.spesialist')->get();
         return response()->json([
             'success' => false,
             'data' => $bookings
