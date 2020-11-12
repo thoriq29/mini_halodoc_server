@@ -14,7 +14,7 @@ class DoctorController extends Controller
 
     public function doctors(Request $request)
     {
-        $doctors = Doctor::with('spesialist')->get();
+        $doctors = Doctor::with('spesialist', 'bookings')->get();
         return response()->json(
             [
                 'success' => true,

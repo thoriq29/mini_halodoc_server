@@ -88,6 +88,7 @@ class BookingController extends Controller
         $date = new Carbon($input['date']);
         $input['booking_code'] = "B".(now()->year-2000).now()->month.rand(9000, ($date->year + $date->month + $date->day+ $date->minute));
         $input['status'] = 'active';
+        $input['patient_id'] = $user->patient->id;
 
         if(!$user->isPatient()) {
             return response()->json([
