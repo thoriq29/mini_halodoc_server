@@ -42,7 +42,7 @@ Route::get('/department/{depid}/hospital/{id}/', [HospitalController::class, 'de
 
 Route::group(['middleware' => 'auth:api'], function(){
 
-    Route::post('validate-token', [UserController::class, 'validate']);
+    Route::post('validate-token', [UserController::class, 'validate_token']);
     Route::post('user', [UserController::class, 'detail']);
     Route::post('user/upload-foto', [UserController::class, 'upload_patient_image']);
     Route::get('user/notifications', [UserController::class, 'getUserNotifications']);

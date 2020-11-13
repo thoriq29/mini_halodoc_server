@@ -22,7 +22,7 @@ class UserController extends Controller
 {
     public $successStatus = 200;
 
-    public function validate()
+    public function validate_token()
     {
         if(!Auth::user()) {
             return response()->json([
