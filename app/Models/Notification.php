@@ -6,30 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
-use App\Models\Booking;
 
-class Patient extends Model
+class Notification extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'user_id',
-        'address',
-        'phone',
+        'title',
+        'short_desc',
+        'content_text',
         'image_url',
-        'sex'
+        'hasRead',
+        'tag',
+        'date'
     ];
 
     public function user() {
         return $this->belongsTo(User::class);    
     }
-    
-    public function bookings() {
-        return $this->hasMany(Booking::class);    
-    }
-
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
 }

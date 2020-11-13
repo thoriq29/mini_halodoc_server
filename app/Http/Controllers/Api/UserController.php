@@ -13,6 +13,10 @@ use Illuminate\Support\Str;
 use Validator;
 
 use App\Models\Auth\Role;
+use App\Models\Notification;
+use App\Models\FcmToken;
+
+use File;
 
 class UserController extends Controller
 {
@@ -22,6 +26,12 @@ class UserController extends Controller
     {
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
+            $checkToken = FcmToken::where('token', $request->token)->first();
+            if(!isset($checkToken)) {
+                $user->fcmTokens()->create([
+                    'token'=> $request->token
+                ]);   
+            }
             $success['token'] =  $user->createToken('halodoc')->accessToken;
             return response()->json(
                 [
@@ -85,6 +95,7 @@ class UserController extends Controller
             $user['isPatient'] = true;
             $user['sex'] = $user->patient()->first()->sex;
             $user['phone'] = $user->patient()->first()->phone;
+            $user['image_url'] = $user->patient()->first()->image_url;
         }
 
         return response()->json([
@@ -93,4 +104,63 @@ class UserController extends Controller
         ], $this->successStatus);
     }
 
+    public function upload_patient_image(Request $request)
+    {
+        $this->validate($request, [
+			'file' => 'file|image|mimes:jpeg,jpg,png',
+        ]);
+        $user = Auth::user();
+        if(!$user->isPatient()) {
+            return response()->json([
+                'success' => false,
+                'data' => "Anda bukan pasien"
+            ], $this->successStatus);
+        }
+		// menyimpan data file yang diupload ke variabel $file
+        $file = $request->file('file');
+        // nama folder tempat kemana file diupload
+        $upload_destination = 'media';
+        // upload file
+        $file->move($upload_destination,$file->getClientOriginalName());
+        $data = $request->all();
+        $data['image_url'] = $file->getClientOriginalName();
+
+        $user->patient()->update($data);
+        return response()->json([
+            'success' => true,
+            'data' => $user->patient
+        ], $this->successStatus);
+    }
+
+    public function getUserNotifications(Request $request)
+    {
+        $user = Auth::user();
+        $user['notifications'] = $user->notifications;
+        return response()->json([
+            'success' => true,
+            'data' => $user
+        ], $this->successStatus);
+    }
+
+    public function notifDetail($id)
+    {
+        $notif = Notification::find($id);
+        return response()->json([
+            'success' => true,
+            'data' => $notif
+        ], $this->successStatus);
+    }
+
+    public function updateReadNotif($id)
+    {
+        $notif = Notification::find($id);
+        $notif['hasRead'] = 1;
+        $notif->save();
+        return response()->json([
+            'success' => true,
+            'data' => $notif
+        ], $this->successStatus);
+    }
+
 }
+

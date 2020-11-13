@@ -34,6 +34,7 @@ Route::get('/doctor/{id}', [DoctorController::class, 'doctor']);
 // content 
 Route::get('/content', [ContentController::class, 'list']);
 Route::get('/content/search', [ContentController::class, 'search']);
+Route::post('notifications/send', [ContentController::class, 'sendUserNotification']);
 
 // hospital
 Route::get('/department/{depid}/hospitals', [HospitalController::class, 'hospitals']);
@@ -42,9 +43,14 @@ Route::get('/department/{depid}/hospital/{id}/', [HospitalController::class, 'de
 Route::group(['middleware' => 'auth:api'], function(){
 
     Route::post('user', [UserController::class, 'detail']);
+    Route::post('user/upload-foto', [UserController::class, 'upload_patient_image']);
+    Route::get('user/notifications', [UserController::class, 'getUserNotifications']);
+    Route::get('user/notifications/{id}', [UserController::class, 'notifDetail']);
+    Route::post('user/notifications/{id}/set-read', [UserController::class, 'updateReadNotif']);
 
     // booking
     Route::get('bookings', [BookingController::class, 'patientBookings']);
     Route::get('booking/{id}', [BookingController::class, 'booking']);
     Route::post('booking/create', [BookingController::class, 'makeBooking']);
+    
 });

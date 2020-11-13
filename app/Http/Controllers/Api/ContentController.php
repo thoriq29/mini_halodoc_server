@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Http;
+
 use App\Models\Content;
 use App\Models\Doctor;
+use App\Models\User;
 
 class ContentController extends Controller
 {
@@ -75,6 +78,43 @@ class ContentController extends Controller
             [
                 'success' => true,
                 'data'=> $data
+            ], $this->successStatus
+        );
+    }
+
+    public function sendUserNotification(Request $request)
+    {
+
+        $user = User::where('email', $request->to)->first();
+        $tokens = $user->fcmTokens;
+        if(count($tokens) > 0) {
+            foreach($tokens as $token) {
+                $response = Http::withHeaders([
+                    'Authorization' => getenv('FCM_KEY'),
+                    'Content-Type' => 'application/json'
+                ])->post('https://fcm.googleapis.com/fcm/send', [
+                    'to' => $token->token,
+                    'notification' => [
+                        "body" => $request->short_desc,
+                        "title"=> $request->title
+                    ],
+                    "data" => [
+                        "body" => $request->content_text,
+                        "title"=> $request->title
+                    ]
+                ]);
+            }
+            return response()->json(
+                [
+                    'success' => true,
+                    'data'=> "Notifikasi berhasil dikirim"
+                ], $this->successStatus
+            );
+        }
+        return response()->json(
+            [
+                'success' => true,
+                'data'=> "Tidak ada token"
             ], $this->successStatus
         );
     }

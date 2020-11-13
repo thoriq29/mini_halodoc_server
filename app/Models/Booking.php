@@ -26,6 +26,7 @@ class Booking extends Model
         'booking_for',
         'is_active',
         'date',
+        'message',
         'booking_code',
         'status'
     ];

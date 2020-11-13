@@ -15,7 +15,7 @@ class BookingPatientInformation extends Model
         'booking_id',
         'name', 
         'status',
-        'sec'
+        'sex'
     ];
 
     public function booking() {

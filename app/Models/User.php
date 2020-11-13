@@ -12,6 +12,8 @@ use App\Helpers\HasPermissionsTrait;
 
 use App\Models\Patient;
 use App\Models\Doctor;
+use App\Models\FcmToken;
+use App\Models\Notification;
 
 class User extends Authenticatable
 {
@@ -51,6 +53,16 @@ class User extends Authenticatable
     public function patient()
     {
         return $this->hasOne(Patient::class);
+    }
+
+    public function fcmTokens()
+    {
+        return $this->hasMany(FcmToken::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 
     public function doctor()

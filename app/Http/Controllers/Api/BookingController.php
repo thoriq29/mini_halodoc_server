@@ -75,6 +75,7 @@ class BookingController extends Controller
             'patient_id' => 'required',
             'booking_for' => 'required',
             'date' => 'required',
+            'message' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -124,6 +125,12 @@ class BookingController extends Controller
         $input['date'] = $date;
         $input['is_active'] = 1;
         $booking = Booking::create($input);
+        $booking->booking_patient_information()->create([
+            'booking_id' => $booking->id,
+            'name' => $request->get('info_patient_name'), 
+            'status' => $request->get('info_patient_status'),
+            'sex' => $request->get('info_patient_sex')
+        ]);
 
         return response()->json([
             'success'=>true,
