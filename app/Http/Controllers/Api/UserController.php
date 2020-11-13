@@ -22,6 +22,20 @@ class UserController extends Controller
 {
     public $successStatus = 200;
 
+    public function validate()
+    {
+        if(!Auth::user()) {
+            return response()->json([
+                'success'=>true,
+                'data'=> "Token tidak valid"
+            ], 403);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=> "Aunthenticated"
+        ], $this->successStatus);
+    }
+
     public function login(Request $request)
     {
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
