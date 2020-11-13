@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Content;
 use App\Models\Doctor;
 use App\Models\User;
+use App\Models\Notification;
 
 class ContentController extends Controller
 {
@@ -104,6 +105,16 @@ class ContentController extends Controller
                     ]
                 ]);
             }
+            Notification::create([
+                'user_id'=> $user->id,
+                'title' => $request->title,
+                'short_desc' => $request->short_desc,
+                'content_text' => $request->content_text,
+                'image_url' => $request->image_url,
+                'hasRead' => 0,
+                'tag' => $request->tag,
+                'date' => now()
+            ]);
             return response()->json(
                 [
                     'success' => true,
