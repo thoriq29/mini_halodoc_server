@@ -18,11 +18,42 @@ class HospitalController extends Controller
 
     public function hospitals(Request $request, $id)
     {
-        $hospitals = Department::find($id)->hospitals();
+        $dept = Department::find($id);
+        $hospitals = $dept->hospitals()->with(['schedules.doctors', 'hospital_type'])->get();
+        $hospitals[0]['bpjs'] = [
+            "title" => "BPJS",
+            'weekday' => "Senin-Jumat: 07.00 - 14.00, 16.00 - 19.00",
+            'weekend' => "Sabtu: 07.00 - 12.00"
+        ];
+        $hospitals[0]['open_hour'] = [
+            'weekday' => "Senin-Jumat: 08.00 - 20.00",
+            'weekend' => "Sabtu: 08.00 - 17.00"
+        ];
+        if(count($hospitals) > 1) {
+            $hospitals[1]['open_hour'] = [
+                'weekday' => "Senin-Jumat: 08.00 - 20.00",
+                'weekend' => "Sabtu: 08.00 - 13.00"
+            ];
+        }
+        $data = [
+            'about' => $dept,
+            'layanan_darurat' => [
+                [
+                    'title' => 'Unit Gawat Darurat',
+                    'desc' => 'Setiap Hari 24 Jam',
+                ],
+                [
+                    'title' => 'Ambulan Siaga',
+                    'desc' => '+12123312',
+                ]
+            ],
+            'hospitals' => $hospitals
+        ];
+        
         return response()->json(
             [
                 'success' => true,
-                'data'=> $hospitals->with(['schedules.doctors', 'hospital_type'])->get()
+                'data'=> $data
             ], $this->successStatus
         );
     }

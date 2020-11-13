@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\BookingPatientInformation;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Hospital;
@@ -31,6 +32,10 @@ class Booking extends Model
 
     public function hospital() {
         return $this->belongsTo(Hospital::class);    
+    }
+
+    public function booking_patient_information() {
+        return $this->hasMany(BookingPatientInformation::class);    
     }
 
     public function patient() {

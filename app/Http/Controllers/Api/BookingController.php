@@ -48,6 +48,7 @@ class BookingController extends Controller
                         ->find($id)
                         ->with([
                             'hospital',
+                            'booking_patient_information',
                             'patient' => function($patient) {
                                 $patient->with(['user' => function($user) use($patient) {
                                     $patient->select('id','address', 'phone', 'sex');
