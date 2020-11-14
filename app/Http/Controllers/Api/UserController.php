@@ -40,11 +40,13 @@ class UserController extends Controller
     {
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
-            $checkToken = FcmToken::where('token', $request->token)->first();
-            if(!isset($checkToken)) {
-                $user->fcmTokens()->create([
-                    'token'=> $request->token
-                ]);   
+            if($request->token != null) {
+                $checkToken = FcmToken::where('token', $request->token)->first();
+                if(!isset($checkToken)) {
+                    $user->fcmTokens()->create([
+                        'token'=> $request->token
+                    ]);   
+                }
             }
             $success['token'] =  $user->createToken('halodoc')->accessToken;
             return response()->json(
@@ -84,10 +86,19 @@ class UserController extends Controller
             "sex" => $input['sex']
         ]);
 
+
+
         $user->roles()->attach(Role::where('slug', 'patient')->first());
         $success['token'] =  $user->createToken('halodoc')->accessToken;
         $success['name'] =  $user->name;
-
+        if($request->token != null) {
+            $checkToken = FcmToken::where('token', $request->token)->first();
+            if(!isset($checkToken)) {
+                $user->fcmTokens()->create([
+                    'token'=> $request->token
+                ]);   
+            }
+        }
         return response()->json([
             'success'=>true,
             'data'=> $success
