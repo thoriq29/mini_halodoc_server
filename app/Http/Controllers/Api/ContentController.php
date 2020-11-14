@@ -110,7 +110,7 @@ class ContentController extends Controller
                 'title' => $request->title,
                 'short_desc' => $request->short_desc,
                 'content_text' => $request->content_text,
-                'image_url' => $request->image_url,
+                'image_url' => "",
                 'hasRead' => 0,
                 'tag' => $request->tag,
                 'date' => now()
