@@ -36,7 +36,7 @@ class DoctorController extends Controller
                     },
                     'schedules'=> function($query) {
                         $query->with(['hospital' => function($hospital) use($query) {
-                            $query->select(['id', 'day', 'start_at', 'end_at']);
+                            $query->select(['id', 'day', 'start_at', 'end_at'])->orderBy('created_at', 'ASC');
                             $hospital->select(['id', 'name']);
                         }]);
 
