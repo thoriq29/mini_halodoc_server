@@ -45,22 +45,14 @@ class BookingController extends Controller
 
         $bookings = $user->patient()->first()
                         ->bookings
-                        ->find($id)
-                        ->with([
-                            'hospital',
-                            'booking_patient_information',
-                            'patient' => function($patient) {
-                                $patient->with(['user' => function($user) use($patient) {
-                                    $patient->select('id','address', 'phone', 'sex');
-                                    $user->select(['id','name', 'email']);
-                                }]);
-                            },
-                            'doctor' => function($doctor) {
-                                $doctor->with(['spesialist' => function($spesialist) use($doctor) {
-                                    $spesialist->select(['id', 'name as spesialis']);
-                                }]);
-                            },
-                        ])->get();
+                        ->find($id);
+        $bookings['hospital'] = $bookings->hospital;
+        $bookings['booking_patient_information'] = $bookings->booking_patient_information;
+        $bookings['patient'] = $bookings->patient;
+        $bookings['doctor'] = $bookings->doctor;
+        $bookings['doctor']['spesialist'] = $bookings->doctor->spesialist;
+
+        
         return response()->json([
             'success' => false,
             'data' => $bookings
