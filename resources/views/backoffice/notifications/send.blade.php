@@ -35,7 +35,7 @@
     </div>
     <div class="form-group">
         <label for="title">Image Url:</label>
-        {!! Form::text('image_url', null, array('placeholder' => 'promo/event/etc','class' => 'form-control')) !!}
+        {!! Form::text('image_url', null, array('placeholder' => 'image untuk notif','class' => 'form-control')) !!}
     </div>
     <div class="form-group">
         <label for="title">Tag:</label>
