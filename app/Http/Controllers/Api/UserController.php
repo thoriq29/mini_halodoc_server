@@ -83,7 +83,8 @@ class UserController extends Controller
             'user_id' => $user->id,
             'address' => "",
             "phone" => $input['phone'],
-            "sex" => $input['sex']
+            "sex" => $input['sex'],
+            'image_url' => $input['image_url']
         ]);
 
 
