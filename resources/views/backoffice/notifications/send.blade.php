@@ -34,6 +34,10 @@
         {!! Form::text('content_text', null, array('placeholder' => 'Content Text Message','class' => 'form-control')) !!}
     </div>
     <div class="form-group">
+        <label for="title">Image Url:</label>
+        {!! Form::text('image_url', null, array('placeholder' => 'promo/event/etc','class' => 'form-control')) !!}
+    </div>
+    <div class="form-group">
         <label for="title">Tag:</label>
         {!! Form::text('tag', null, array('placeholder' => 'promo/event/etc','class' => 'form-control')) !!}
     </div>
